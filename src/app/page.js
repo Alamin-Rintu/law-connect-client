@@ -1,3 +1,4 @@
+import AttorneyCTA from "@/components/AttorneyCTA";
 import Banner from "@/components/Banner";
 import { FAQSection } from "@/components/FAQSection";
 import PracticeAreas from "@/components/PracticeAreas";
@@ -13,6 +14,7 @@ export default function Home() {
       <PracticeAreas />
       <Testimonials/>
       <FAQSection/>
+      <AttorneyCTA/>
     </div>
   );
 }

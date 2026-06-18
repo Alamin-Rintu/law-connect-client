@@ -1,7 +1,6 @@
 "use client"; // Next.js App Router-এর জন্য
 
 import React from "react";
-// react-icons/fa6 থেকে আইকনগুলো নেওয়া হয়েছে
 import {
   FaGavel,
   FaBriefcase,
@@ -9,12 +8,11 @@ import {
   FaHouse,
   FaReceipt,
   FaGlobe,
-  FaBriefcaseMedical, // Employment এর জন্য একটি মানানসই বিকল্প
+  FaBriefcaseMedical,
   FaShieldHalved,
 } from "react-icons/fa6";
 
 export default function PracticeAreas() {
-  // ফেক ডেটা ডাইনামিক করার জন্য (Array of Objects)
   const practiceAreas = [
     {
       id: 1,
@@ -67,9 +65,8 @@ export default function PracticeAreas() {
   ];
 
   return (
-    <section className="bg-[#f8fafc] py-16 px-6 md:px-12 min-h-screen">
+    <section className="bg-[#f8fafc] py-12 px-6 md:px-12 ">
       <div className="max-w-7xl mx-auto">
-        {/* হেডার এরিয়া */}
         <div className="mb-12">
           <span className="text-xs font-bold tracking-widest text-blue-600 uppercase block mb-2">
             Practice Areas
@@ -81,8 +78,6 @@ export default function PracticeAreas() {
             Eight specializations, one platform.
           </p>
         </div>
-
-        {/* গ্রিড এবং ডাইনামিক কার্ড */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {practiceAreas.map((area) => {
             const Icon = area.icon;
@@ -92,17 +87,13 @@ export default function PracticeAreas() {
                 className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[190px]"
               >
                 <div>
-                  {/* গোল্ডেন আইকন কন্টেইনার (ডার্ক ব্যাকগ্রাউন্ড) */}
                   <div className="w-12 h-12 rounded-xl bg-[#0b132b] flex items-center justify-center text-amber-500 mb-6">
                     <Icon size={20} />
                   </div>
 
-                  {/* টাইটেল */}
                   <h3 className="text-lg font-bold text-[#0f172a] mb-2">
                     {area.title}
                   </h3>
-
-                  {/* ডেসক্রিপশন */}
                   <p className="text-gray-500 text-sm font-normal">
                     {area.description}
                   </p>

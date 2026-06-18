@@ -5,7 +5,6 @@ import { Card } from "@heroui/react";
 import { FaQuoteLeft } from "react-icons/fa6";
 
 export default function Testimonials() {
-  // ডাইনামিক ফেক ডেটা (Fake Data Array)
   const testimonials = [
     {
       id: 1,
@@ -33,7 +32,6 @@ export default function Testimonials() {
   return (
     <section className="bg-[#020b1e] py-20 px-6 md:px-12 text-white">
       <div className="max-w-7xl mx-auto">
-        {/* হেডার সেকশন */}
         <div className="mb-12">
           <span className="text-xs font-bold tracking-widest text-amber-500 uppercase block mb-3">
             Testimonials
@@ -45,29 +43,20 @@ export default function Testimonials() {
             Real stories from the LegalEase community.
           </p>
         </div>
-
-        {/* গ্রিড এবং ডাইনামিক টেস্টমোনিয়াল কার্ডসমূহ */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((item) => (
             <Card
               key={item.id}
-              isHoverable
-              // HeroUI v3 গাইডলাইন মেনে সরাসরি কার্ডে প্যাডিং, বর্ডার এবং ফ্লেক্স লেআউট
               className="bg-[#071330] border border-gray-800/60 p-8 rounded-2xl flex flex-col justify-between min-h-[240px] shadow-lg transition-all duration-300"
             >
               <div>
-                {/* কোটেশন মার্ক আইকন */}
                 <div className="text-amber-500 mb-5">
                   <FaQuoteLeft size={24} />
                 </div>
-
-                {/* ক্লায়েন্ট কোট/রিভিউ */}
                 <p className="text-gray-200 text-base font-serif leading-relaxed mb-6">
                   {item.quote}
                 </p>
               </div>
-
-              {/* অথর এবং রোল সেকশন (নিচে পুশ করার জন্য flex-col এবং justify-between কাজ করছে) */}
               <div>
                 <h4 className="text-gray-100 font-bold text-sm tracking-wide">
                   {item.author}
