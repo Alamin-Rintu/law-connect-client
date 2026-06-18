@@ -11,9 +11,9 @@ import {
   Description,
   Separator,
 } from "@heroui/react";
-import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import { FcGoogle } from "react-icons/fc";
+import toast from "react-hot-toast";
 
 export default function SignInPage() {
   const onSubmit = async (e) => {
@@ -22,14 +22,27 @@ export default function SignInPage() {
 
     const user = Object.fromEntries(formData.entries());
 
-    await authClient.signIn.email({
+    const { data, error } = await authClient.signIn.email({
       email: user.email,
       password: user.password,
+      rememberMe: true,
+      callbackURL: "/",
+    });
+    if (data) {
+      toast.success("Signed in successfully!", {
+        position: "bottom-center",
+      });
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
     });
   };
 
   return (
-    <div className="flex h-screen w-screen font-sans">
+    <div className="container mx-auto flex h-screen w-screen font-sans">
       {/* LEFT SIDE */}
       <div className="hidden lg:flex w-1/2 bg-[#0d162a] text-white p-16 flex-col justify-center">
         <h1 className="text-5xl font-bold leading-tight mb-6">
@@ -89,11 +102,12 @@ export default function SignInPage() {
 
             {/* Google Login */}
             <Button
+              onclick={handleGoogleSignIn}
               variant="bordered"
               className="w-full flex items-center justify-center gap-2 py-3"
               onClick={() => authClient.signIn.social({ provider: "google" })}
             >
-            <FcGoogle/>
+              <FcGoogle />
               Continue with Google
             </Button>
 

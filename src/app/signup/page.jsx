@@ -1,6 +1,4 @@
 "use client";
-
-import { authClient } from "@/lib/auth-client";
 import {
   Button,
   Description,
@@ -15,6 +13,8 @@ import {
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+import { authClient } from "@/lib/auth-client";
+import toast from "react-hot-toast";
 
 export default function SignUpPage() {
   const [role, setRole] = useState("Client");
@@ -29,7 +29,7 @@ export default function SignUpPage() {
 
     // Password match check
     if (user.password !== user.confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
 
@@ -37,18 +37,26 @@ export default function SignUpPage() {
       await authClient.signUp.email({
         ...user,
         role: role.toLowerCase(),
-        plan: "free",
+      });
+      toast.success("Account created successfully!", {
+        position: "bottom-center",
       });
 
-      router.push("/");
+      router.push("/signin");
     } catch (error) {
       console.error(error);
-      alert("Signup failed!");
+      toast.error("Signup failed!");
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+
   return (
-    <div className="flex h-screen w-screen font-sans">
+    <div className="container mx-auto flex h-screen w-screen font-sans">
       {/* Left Panel */}
       <div className="hidden lg:flex w-1/2 bg-[#0d162a] p-16 text-white flex-col justify-center">
         <h1 className="text-5xl font-bold leading-tight mb-6">
@@ -149,11 +157,12 @@ export default function SignUpPage() {
 
             {/* Google */}
             <Button
+              onclick={handleGoogleSignIn}
               variant="bordered"
               className="w-full flex items-center gap-2"
               onClick={() => authClient.signIn.social({ provider: "google" })}
             >
-            <FcGoogle/>
+              <FcGoogle />
               Continue with Google
             </Button>
 
