@@ -7,10 +7,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { BiLogOut } from "react-icons/bi";
-import { CgProfile } from "react-icons/cg";
 import { MdDashboard } from "react-icons/md";
-import logoImg from "../../public/lawyer.logo.jpg"
-
+import logoImg from "../../public/lawyer.logo.jpg";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,10 +16,10 @@ const Navbar = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
 
-  const pathname = usePathname();
-  if (pathname.includes("dashboard")) {
-    return null;
-  }
+  // const pathname = usePathname();
+  // if (pathname.includes("dashboard")) {
+  //   return null;
+  // }
 
   const handleSignOut = async () => {
     await authClient.signOut();
@@ -89,7 +87,7 @@ const Navbar = () => {
               </li>
               <li>
                 <Link
-                  href="/lawyers"
+                  href="/browesLawyers"
                   className="text-sm font-medium text-[#718096] hover:text-[#1A202C]"
                 >
                   Browse Lawyers
@@ -174,12 +172,6 @@ const Navbar = () => {
                           <MdDashboard />
                           <Label>Dashboard</Label>
                         </Link>
-                      </Dropdown.Item>
-                      <Dropdown.Item id="profile" textValue="Profile">
-                        <div className="flex items-center gap-2">
-                          <CgProfile />
-                          <Label>Profile</Label>
-                        </div>
                       </Dropdown.Item>
                       <Dropdown.Item
                         id="logout"
