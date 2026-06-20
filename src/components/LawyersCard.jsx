@@ -44,7 +44,7 @@ const LawyersCard = ({ lawyer }) => {
         </div>
 
         <Link
-          href={`/lawyer/${lawyer._id}`}
+          href={`/browesLawyers/${lawyer._id}`}
           className="mt-auto w-full bg-[#08152C] hover:bg-[#122442] text-white py-3 px-4 rounded-xl flex justify-between items-center transition-colors font-medium text-sm shadow-sm"
         >
           View profile
