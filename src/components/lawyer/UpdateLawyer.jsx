@@ -66,8 +66,9 @@ export function UpdateLawyer({ service, onSuccess }) {
           headers: {
             "content-type": "application/json",
           },
-          body: JSON.stringify(updateData), // This is what req.body reads on your backend!
+          body: JSON.stringify(updateData),
         },
+        console.log(service._id)
       );
 
       const data = await res.json();

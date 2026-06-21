@@ -8,20 +8,30 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 import { DeleteLawyer } from "@/components/lawyer/DeleteLawyer";
 import { UpdateLawyer } from "@/components/lawyer/UpdateLawyer";
+import { authClient } from "@/lib/auth-client";
 
 export default function LawyerProfilePage() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch Services (Lawyers) on mount
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
   useEffect(() => {
     const fetchServices = async () => {
+      if (!user?.email) return;
+
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/lawyer`);
         const data = await res.json();
-        setServices(data);
+
+        const myServices = data.filter(
+          (service) => service.email === user.email,
+        );
+
+        setServices(myServices);
       } catch (error) {
-        console.error("Error fetching services:", error);
+        console.error(error);
         toast.error("Failed to load services");
       } finally {
         setLoading(false);
@@ -29,7 +39,7 @@ export default function LawyerProfilePage() {
     };
 
     fetchServices();
-  }, []);
+  }, [user]);
 
   // Handle adding a new service from the modal
   const handleAddNewService = (newService) => {

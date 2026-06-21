@@ -24,7 +24,7 @@ export default function AddServices() {
   const [loading, setLoading] = useState(false);
   const { data: session } = authClient.useSession();
   const user = session?.user
-  console.log(user)
+  console.log(user?.email)
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -54,6 +54,7 @@ export default function AddServices() {
         fee: formData.get("fee"),
         specialization: formData.get("specialization"),
         image: uploaded.url,
+        email:user?.email
       };
 
       console.log("SERVICE:", product);

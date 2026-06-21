@@ -21,7 +21,11 @@ export const auth = betterAuth({
   }),
   user: {
     additionalFields: {
-      role: "client",
+      role: {
+        type:"string",
+        defaultValue:"client"
+      },
+
     },
   },
 });

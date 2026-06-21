@@ -9,6 +9,7 @@ import {
   TextField,
   Link,
   Separator,
+  FieldError,
 } from "@heroui/react";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -52,6 +53,7 @@ export default function SignUpPage() {
   const handleGoogleSignIn = async () => {
     const data = await authClient.signIn.social({
       provider: "google",
+      
     });
   };
 
@@ -90,6 +92,31 @@ export default function SignUpPage() {
             <TextField isRequired name="email" type="email">
               <Label>Email</Label>
               <Input placeholder="john@example.com" variant="bordered" />
+            </TextField>
+            {/* photo url */}
+                  {/* Photo URL */}
+            <TextField
+              isRequired
+              name="image"
+              type="url"
+              validate={(value) => {
+                if (!value.startsWith("http")) {
+                  return "Please enter a valid URL";
+                }
+                return null;
+              }}
+            >
+              <Label>Photo URL</Label>
+
+              <Input
+                placeholder="Enter your photo URL"
+                className={{
+                  inputWrapper:
+                    "rounded-xl border border-default-200 shadow-sm",
+                }}
+              />
+
+              <FieldError />
             </TextField>
 
             {/* Password */}

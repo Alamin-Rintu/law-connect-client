@@ -37,20 +37,18 @@ export async function DashboardSidebar() {
 
     client: [
       {
-        icon: House,
-        label: "Home",
-      },
-      {
         icon: MdHistory,
         label: "Hiring History",
       },
       {
         icon: CgProfile,
         label: "Manage Legal Profile",
+        href:"/dashboard/client/clientLegalProfile"
       },
       {
         icon: FaRegCommentDots,
         label: "Comments",
+        href:"/dashboard/client/clientComments"
       },
     ],
 
