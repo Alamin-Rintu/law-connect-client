@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import { Chip, Table, Button } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { Pencil, Trash2 } from "lucide-react";
+import DeleteClientComment from "@/components/client/DeleteClientComment";
+import UpdateClientComment from "@/components/client/UpdateClientComment";
 
 const ClientComment = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
+  // console.log(user)
 
   const [comments, setComments] = useState([]);
 
@@ -25,6 +28,7 @@ const ClientComment = () => {
 
     load();
   }, [user]);
+  console.log(comments);
 
   return (
     <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 mt-6">
@@ -89,13 +93,9 @@ const ClientComment = () => {
                 {/* ACTIONS */}
                 <Table.Cell>
                   <div className="flex items-center gap-2">
-                    <Button size="sm" variant="flat" color="primary">
-                      <Pencil size={16} />
-                    </Button>
+                    <DeleteClientComment comment={item} />
 
-                    <Button size="sm" variant="flat" color="danger">
-                      <Trash2 size={16} />
-                    </Button>
+                    <UpdateClientComment comment={item} />
                   </div>
                 </Table.Cell>
               </Table.Row>
