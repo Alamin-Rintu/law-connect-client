@@ -21,17 +21,21 @@ export const metadata = {
 };
 
 export default async function LawyerDetailsPage({ params }) {
-  const {token} = await auth.api.getToken({
-    headers: await headers()
-  })
-  console.log(token)
+  const session = await auth.api.getSession({
+    headers: await headers(), // you need to pass the headers object.
+  });
+  const user = session?.user;
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+  console.log(token);
   const { id } = await params;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/lawyer/${id}`,
     {
-      headers:{
-        authorization:`Bearer ${token}`
-      }
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     },
   );
 
@@ -79,10 +83,16 @@ export default async function LawyerDetailsPage({ params }) {
                 </div>
               </div>
 
+              {user?.role !== "lawyer" && (
+                <div className="mt-5 w-full">
+                  <HireLawyerModal lawyer={lawyer} />
+                </div>
+              )}
+
               {/* Action Buttons */}
-              <div className="mt-5 w-full">
+              {/* <div className="mt-5 w-full">
                 <HireLawyerModal lawyer={lawyer} />
-              </div>
+              </div> */}
             </div>
 
             {/* Right: Details */}
@@ -187,7 +197,7 @@ export default async function LawyerDetailsPage({ params }) {
           <h3 className="mb-4 text-xl font-semibold text-slate-800">
             Leave a Comment
           </h3>
-          <ClientComment lawyer={lawyer}/>
+          <ClientComment lawyer={lawyer} />
 
           {/* Reviews Section */}
           <div className="mt-10 border-t border-slate-200 pt-6">
