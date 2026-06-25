@@ -12,13 +12,21 @@ import {
 import HireLawyerModal from "@/components/HireLawyerModal";
 import ClientComment from "@/components/client/ClientComment";
 import ShowClientComment from "@/components/client/ShowClientComment";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export default async function LawyerDetailsPage({ params }) {
+  const {token} = await auth.api.getToken({
+    headers: await headers()
+  })
+  console.log(token)
   const { id } = await params;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/lawyer/${id}`,
     {
-      cache: "no-store",
+      headers:{
+        authorization:`Bearer ${token}`
+      }
     },
   );
 

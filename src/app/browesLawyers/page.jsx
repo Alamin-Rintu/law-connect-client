@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import LawyersCard from "@/components/LawyersCard";
 import SearchFilter from "../../components/SearchFilter";
+import { BounceLoader } from "react-spinners";
 
 const BrowseLawyers = () => {
   const [search, setSearch] = useState("");
@@ -74,9 +75,7 @@ const BrowseLawyers = () => {
             Directory
           </h3>
 
-          <h1 className="text-4xl font-bold mb-3">
-            Browse expert counsel
-          </h1>
+          <h1 className="text-4xl font-bold mb-3">Browse expert counsel</h1>
 
           <p className="text-[#B0B5A6] text-lg">
             Filter by practice area, availability, and consultation fee.
@@ -96,21 +95,18 @@ const BrowseLawyers = () => {
 
         <div className="mt-6">
           {loading ? (
-            <p className="text-gray-500 font-medium">
-              Updating results...
-            </p>
+            <div className="flex justify-center items-center py-20">
+              <BounceLoader size={60} />
+            </div>
           ) : (
             <>
-              <h3 className="font-semibold text-lg mb-4">
-                {pagination.total} lawyers matching
+              <h3 className="font-bold text-lg mb-4">
+                ({pagination.total}) Lawyers Matching
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {allLawyers.map((lawyer) => (
-                  <LawyersCard
-                    key={lawyer._id}
-                    lawyer={lawyer}
-                  />
+                  <LawyersCard key={lawyer._id} lawyer={lawyer} />
                 ))}
               </div>
 
@@ -129,9 +125,7 @@ const BrowseLawyers = () => {
                     key={index}
                     onClick={() => setPage(index + 1)}
                     className={`px-4 py-2 border rounded ${
-                      page === index + 1
-                        ? "bg-blue-600 text-white"
-                        : ""
+                      page === index + 1 ? "bg-blue-600 text-white" : ""
                     }`}
                   >
                     {index + 1}
