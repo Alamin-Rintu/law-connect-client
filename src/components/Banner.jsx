@@ -49,20 +49,23 @@ export default function Banner() {
 
           {/* Call to Actions */}
           <div className="flex flex-wrap gap-4 pt-2">
-            <Button
-              className="bg-amber-500 hover:bg-amber-600 text-neutral-900 font-semibold shadow-lg shadow-amber-500/20 px-6"
-              radius="sm"
-              endContent={<BsArrowRightShort />}
-            >
-              Browse Lawyers
-            </Button>
+            <Link href="/browesLawyers">
+              <Button
+                className="bg-amber-500 hover:bg-amber-600 text-neutral-900 font-semibold shadow-lg shadow-amber-500/20 px-6"
+                radius="sm"
+                endContent={<BsArrowRightShort />}
+              >
+                Browse Lawyers
+              </Button>
+            </Link>
+         <Link href="/signup">
             <Button
               variant="outline"
               className="border-gray-700 hover:border-gray-500 text-white font-medium px-6"
               radius="sm"
             >
               Become a Lawyer
-            </Button>
+            </Button></Link>
           </div>
 
           {/* Features Grid */}

@@ -26,7 +26,7 @@ export default function SignUpPage() {
 
     const formData = new FormData(e.currentTarget);
     const user = Object.fromEntries(formData.entries());
-    console.log("Form data:", user, "Selected role:", role);
+    // console.log("Form data:", user, "Selected role:", role);
 
     // Password match check
     if (user.password !== user.confirmPassword) {
@@ -43,7 +43,7 @@ export default function SignUpPage() {
         position: "bottom-center",
       });
 
-      router.push("/signin");
+      router.push("/");
     } catch (error) {
       console.error(error);
       toast.error("Signup failed!");

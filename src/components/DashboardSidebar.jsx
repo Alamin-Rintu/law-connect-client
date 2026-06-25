@@ -34,17 +34,17 @@ export async function DashboardSidebar() {
       {
         icon: MdHistory,
         label: "Hiring History",
-        href:"/dashboard/client"
+        href: "/dashboard/client",
       },
       {
         icon: CgProfile,
         label: "Manage Legal Profile",
-        href:"/dashboard/client/clientLegalProfile"
+        href: "/dashboard/client/clientLegalProfile",
       },
       {
         icon: FaRegCommentDots,
         label: "Comments",
-        href:"/dashboard/client/clientComments"
+        href: "/dashboard/client/clientComments",
       },
     ],
 
@@ -52,38 +52,49 @@ export async function DashboardSidebar() {
       {
         icon: House,
         label: "Home",
-        href:"/dashboard/admin"
+        href: "/dashboard/admin",
       },
       {
         icon: FaRegUserCircle,
         label: "Manage Users",
-        href:"/dashboard/admin/manageUsers"
+        href: "/dashboard/admin/manageUsers",
       },
       {
         icon: RiMoneyDollarBoxLine,
         label: "All Transactions",
+        href: "/dashboard/admin/transactions",
       },
       {
         icon: MdOutlineAnalytics,
         label: "Analytics",
+        href: "/dashboard/admin/analytics",
       },
     ],
   };
 
-  const navItems = dashboardLinks?.[role] || [];
+  const navItems = dashboardLinks[role] || [];
 
   const navContent = (
-    <nav className="flex flex-col gap-1">
+    <nav className="flex flex-col gap-2">
       {navItems.map((item) => {
         const Icon = item.icon;
 
         return (
           <Link
             key={item.label}
-            href={item.href || "#"}
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default"
+            href={item.href}
+            className="
+              flex items-center gap-3
+              rounded-xl
+              px-4 py-3
+              text-sm font-medium
+              text-slate-700
+              hover:bg-slate-100
+              hover:text-slate-900
+              transition-all
+            "
           >
-            <Icon className="size-5" />
+            <Icon className="h-5 w-5 shrink-0" />
             <span>{item.label}</span>
           </Link>
         );
@@ -93,30 +104,90 @@ export async function DashboardSidebar() {
 
   return (
     <>
-      <aside className="hidden w-64 shrink-0 border-r border-default p-4 lg:block">
-        {navContent}
+      {/* Desktop Sidebar */}
+      <aside
+        className="
+          hidden lg:flex
+          fixed left-0 top-0
+          h-screen
+          w-72
+          border-r
+          bg-white
+          z-40
+          flex-col
+          p-5
+          overflow-y-auto
+        "
+      >
+        <div className="pb-5 border-b">
+          <h2 className="text-xl font-bold">
+            Dashboard
+          </h2>
+
+          <p className="text-sm text-slate-500 mt-1 capitalize">
+            {role}
+          </p>
+        </div>
+
+        <div className="mt-5 flex-1">
+          {navContent}
+        </div>
       </aside>
 
-      <Drawer>
-        <Button className="lg:hidden" variant="secondary">
-          <Bars />
-          Menu
-        </Button>
+      {/* Mobile Header */}
+      <div
+        className="
+          lg:hidden
+          sticky top-0
+          z-50
+          border-b
+          bg-white
+          px-4
+          py-3
+        "
+      >
+        <Drawer>
+          <Button className="bg-[#0B1936] text-white">
+            <Bars />
+            Menu
+          </Button>
 
-        <Drawer.Backdrop>
-          <Drawer.Content placement="left">
-            <Drawer.Dialog>
-              <Drawer.CloseTrigger />
+          <Drawer.Backdrop>
+            <Drawer.Content
+              placement="left"
+              className="w-[280px] sm:w-[320px]"
+            >
+              <Drawer.Dialog>
+                <Drawer.CloseTrigger />
 
-              <Drawer.Header>
-                <Drawer.Heading>Navigation</Drawer.Heading>
-              </Drawer.Header>
+                <Drawer.Header>
+                  <Drawer.Heading>
+                    Dashboard Menu
+                  </Drawer.Heading>
+                </Drawer.Header>
 
-              <Drawer.Body>{navContent}</Drawer.Body>
-            </Drawer.Dialog>
-          </Drawer.Content>
-        </Drawer.Backdrop>
-      </Drawer>
+                <Drawer.Body>
+                  <div className="mb-6 border-b pb-4">
+                    <p className="font-semibold truncate">
+                      {user?.name}
+                    </p>
+
+                    <p className="text-sm text-gray-500 break-all">
+                      {user?.email}
+                    </p>
+
+                    <p className="text-xs text-blue-600 mt-2 capitalize">
+                      {role}
+                    </p>
+                  </div>
+
+                  {navContent}
+                </Drawer.Body>
+              </Drawer.Dialog>
+            </Drawer.Content>
+          </Drawer.Backdrop>
+        </Drawer>
+      </div>
     </>
   );
 }

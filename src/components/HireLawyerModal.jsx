@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 
 export default function HireLawyerModal({ lawyer }) {
+  // console.log("lawyer details", lawyer)
   const { data: session } = authClient.useSession();
   const user = session?.user;
 
@@ -21,6 +22,7 @@ export default function HireLawyerModal({ lawyer }) {
         lawyerId: lawyer._id,
         lawyerName: lawyer.name,
         lawyerEmail: lawyer.email,
+        fee:lawyer.fee,
 
         clientName: user?.name,
         clientEmail: user?.email,
@@ -28,8 +30,10 @@ export default function HireLawyerModal({ lawyer }) {
         message: "Hire request",
 
         status: "pending",
+        pay:"pay unavailable",
         createdAt: new Date(),
       };
+      console.log("hireRequest", hireRequest)
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/hireLawyer`,

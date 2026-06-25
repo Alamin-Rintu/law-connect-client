@@ -1,7 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { Avatar, Button, Dropdown, Label, SearchField } from "@heroui/react";
+import { Avatar, Button, Dropdown } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,215 +13,223 @@ import logoImg from "../../public/lawyer.logo.jpg";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const pathname = usePathname();
+
   const { data: session } = authClient.useSession();
   const user = session?.user;
-
-  // const pathname = usePathname();
-  // if (pathname.includes("dashboard")) {
-  //   return null;
-  // }
 
   const handleSignOut = async () => {
     await authClient.signOut();
   };
 
+  const navLinks = [
+    {
+      name: "Home",
+      href: "/",
+    },
+    {
+      name: "Browse Lawyers",
+      href: "/browesLawyers",
+    },
+  ];
+
   return (
-    <div>
-      <nav className="sticky top-0 z-40 w-full border-b border-gray-100 bg-white/90 backdrop-blur-lg">
-        <header className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-          {/* Left Side: Brand Logo and Navigation */}
-          <div className="flex items-center gap-8">
-            <button
-              className="md:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-              aria-expanded={isMenuOpen}
-            >
-              <span className="sr-only">Menu</span>
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                {isMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
+    <nav className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md">
+      <div className="mx-auto flex h-16 md:h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Left Side */}
+        <div className="flex items-center gap-6 lg:gap-10">
+          <Link href="/" className="flex items-center gap-3">
+            <Image
+              src={logoImg}
+              alt="LawConnect"
+              width={50}
+              height={50}
+              priority
+              className="rounded-lg object-cover"
+            />
 
-            <Link href={"/"}>
-              <div className="flex items-center gap-3">
-                <Image
-                  height={50}
-                  width={100}
-                  loading="eager"
-                  src={logoImg}
-                  alt="LawConnect logo"
-                />
-                <p className="text-xl font-bold text-[#0B1936]">LawConnect</p>
-              </div>
-            </Link>
+            <span className="text-lg md:text-xl font-bold text-slate-900">
+              LawConnect
+            </span>
+          </Link>
 
-            <ul className="hidden items-center gap-6 md:flex">
-              <li className="rounded-xl bg-[#EDF2F7] px-4 py-2">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-2">
+            {navLinks.map((item) => {
+              const isActive =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(item.href);
+
+              return (
                 <Link
-                  href="/"
-                  className="text-sm font-semibold text-[#1A202C]"
-                  aria-current="page"
+                  key={item.href}
+                  href={item.href}
+                  className={`rounded-xl px-5 py-2.5 text-sm font-medium transition ${
+                    isActive
+                      ? "bg-slate-100 text-slate-900"
+                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                  }`}
                 >
-                  Home
+                  {item.name}
                 </Link>
-              </li>
-              <li>
-                <Link
-                  href="/browesLawyers"
-                  className="text-sm font-medium text-[#718096] hover:text-[#1A202C]"
-                >
-                  Browse Lawyers
-                </Link>
-              </li>
-            </ul>
+              );
+            })}
           </div>
+        </div>
 
-          {/* Right Side: Search and Authentication */}
-          <div className="flex items-center gap-6">
-            {/* Search Input Box */}
-            <div className="hidden lg:block">
-              <SearchField name="search">
-                <SearchField.Group className="flex items-center gap-2 rounded-full bg-[#F7FAFC] px-4 py-2 border border-gray-100 w-[320px]">
-                  <SearchField.SearchIcon className="text-gray-400 w-4 h-4" />
-                  <SearchField.Input
-                    className="bg-transparent text-sm text-gray-700 outline-none placeholder-gray-400 w-full"
-                    placeholder="Search lawyers, specialties..."
-                  />
-                  <SearchField.ClearButton />
-                </SearchField.Group>
-              </SearchField>
-            </div>
-
-            {/* User Session Configurations */}
-            {!user && (
-              <div className="hidden items-center gap-6 md:flex">
-                <Link
-                  href="/signin"
-                  className="text-sm font-semibold text-[#1A202C]"
-                >
-                  SignIn
+        {/* Right Side */}
+        <div className="flex items-center gap-3">
+          {!user ? (
+            <>
+              <div className="hidden md:flex items-center gap-3">
+                <Link href="/signin">
+                  <Button variant="light">Sign In</Button>
                 </Link>
+
                 <Link href="/signup">
-                  <Button className="rounded-xl bg-[#0B1936] px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#152649]">
-                    Get started
+                  <Button className="bg-[#0B1936] text-white">
+                    Get Started
                   </Button>
                 </Link>
               </div>
-            )}
+            </>
+          ) : (
+            <Dropdown>
+              <Dropdown.Trigger>
+                <Avatar
+                  src={user?.image || undefined}
+                  name={user?.name || "U"}
+                  className="w-10 h-10 cursor-pointer border-2 border-slate-200"
+                />
+              </Dropdown.Trigger>
 
-            {user && (
-              <div className="hidden items-center gap-4 md:flex">
-                <Dropdown>
-                  <Dropdown.Trigger className="rounded-full cursor-pointer">
-                    <Avatar size="sm" aria-label="Menu">
-                      <Avatar.Image
-                        referrerPolicy="no-referrer"
-                        alt={user?.name}
-                        src={user?.image}
-                      />
-                      <Avatar.Fallback>
-                        {user?.name?.charAt(0) || "U"}
-                      </Avatar.Fallback>
-                    </Avatar>
-                  </Dropdown.Trigger>
-                  <Dropdown.Popover>
-                    <div className="px-3 pt-3 pb-1">
-                      <div className="flex items-center gap-2">
-                        {/* <Avatar size="sm">
-                          <Avatar.Image alt={user?.name} src={user?.image} />
-                          <Avatar.Fallback>U</Avatar.Fallback>
-                        </Avatar> */}
-                        <div className="flex flex-col gap-0">
-                          <p className="text-sm leading-5 font-medium">
-                            {user?.name}
-                          </p>
-                          <p className="text-xs leading-none text-muted">
-                            {user?.email}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <Dropdown.Menu
-                      onAction={(key) => console.log(`Selected: ${key}`)}
+              <Dropdown.Popover>
+                <div className="min-w-[220px] border-b p-4">
+                  <p className="font-semibold">{user?.name}</p>
+                  <p className="text-sm text-gray-500">{user?.email}</p>
+                </div>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item id="dashboard">
+                    <Link
+                      href={`/dashboard/${user?.role}`}
+                      className="flex w-full items-center gap-2"
                     >
-                      <Dropdown.Item id="dashboard" textValue="Dashboard">
-                        <Link
-                          className="flex items-center gap-2"
-                          href={`/dashboard/${user?.role}`}
-                        >
-                          <MdDashboard />
-                          <Label>Dashboard</Label>
-                        </Link>
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        id="logout"
-                        textValue="Logout"
-                        variant="danger"
-                        onClick={handleSignOut}
-                      >
-                        <div className="flex items-center gap-2">
-                          <BiLogOut />
-                          <Label>Logout</Label>
-                        </div>
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown.Popover>
-                </Dropdown>
-              </div>
-            )}
-          </div>
-        </header>
+                      <MdDashboard />
+                      Dashboard
+                    </Link>
+                  </Dropdown.Item>
 
-        {/* Mobile Navigation Menu */}
-        {isMenuOpen && (
-          <div className="border-t border-gray-100 md:hidden bg-white">
-            <ul className="flex flex-col gap-2 p-4">
-              <li>
-                <Link href="/" className="block py-2 font-medium text-gray-900">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/lawyers" className="block py-2 text-gray-600">
-                  Browse Lawyers
-                </Link>
-              </li>
-              <li className="mt-4 flex flex-col gap-2 border-t border-gray-100 pt-4">
+                  <Dropdown.Item
+                    id="logout"
+                    variant="danger"
+                    onClick={handleSignOut}
+                  >
+                    <div className="flex items-center gap-2">
+                      <BiLogOut />
+                      Logout
+                    </div>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown.Popover>
+            </Dropdown>
+          )}
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden rounded-lg p-2 hover:bg-slate-100"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isMenuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="border-t bg-white md:hidden">
+          <div className="space-y-2 p-4">
+            {navLinks.map((item) => {
+              const isActive =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(item.href);
+
+              return (
                 <Link
-                  href="/signin"
-                  className="block py-2 text-gray-900 font-medium"
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`block rounded-lg px-4 py-3 text-sm font-medium ${
+                    isActive ? "bg-slate-100 text-slate-900" : "text-slate-600"
+                  }`}
                 >
-                  SignIn
+                  {item.name}
                 </Link>
-                <Button className="w-full bg-[#0B1936] text-white">
-                  Get started
-                </Button>
-              </li>
-            </ul>
+              );
+            })}
+
+            <div className="border-t pt-4">
+              {!user ? (
+                <div className="space-y-2">
+                  <Link href="/signin">
+                    <Button className="w-full" variant="light">
+                      Sign In
+                    </Button>
+                  </Link>
+
+                  <Link href="/signup">
+                    <Button className="w-full bg-[#0B1936] text-white">
+                      Get Started
+                    </Button>
+                  </Link>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <Link
+                    href={`/dashboard/${user?.role}`}
+                    className="block rounded-lg px-4 py-3 text-sm font-medium"
+                  >
+                    Dashboard
+                  </Link>
+
+                  <Button
+                    onPress={handleSignOut}
+                    color="danger"
+                    variant="light"
+                    className="w-full"
+                  >
+                    Logout
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
-        )}
-      </nav>
-    </div>
+        </div>
+      )}
+    </nav>
   );
 };
 
