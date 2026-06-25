@@ -1,11 +1,19 @@
-import React from 'react';
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import React from "react";
 
-const AdminHomePage = () => {
-    return (
-        <div>
-            Admin Home Page
-        </div>
-    );
+const AdminHomePage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(), // you need to pass the headers object.
+  });
+  const user = session?.user;
+  console.log(user);
+  return (
+    <div className="max-w-7xl mx-auto">
+      <h3 className="text-2xl font-bold">Welcome Back {user?.name}</h3>
+      <p>Here's an overview of the platform</p>
+    </div>
+  );
 };
 
 export default AdminHomePage;

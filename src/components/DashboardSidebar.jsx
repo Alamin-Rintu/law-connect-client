@@ -19,14 +19,9 @@ export async function DashboardSidebar() {
   const dashboardLinks = {
     lawyer: [
       {
-        icon: House,
-        label: "Home",
-        href: "/dashboard/lawyer",
-      },
-      {
         icon: MdHistory,
         label: "Hiring History",
-        href: "/dashboard/lawyer/hiring-history",
+        href: "/dashboard/lawyer",
       },
       {
         icon: CgProfile,
@@ -39,6 +34,7 @@ export async function DashboardSidebar() {
       {
         icon: MdHistory,
         label: "Hiring History",
+        href:"/dashboard/client"
       },
       {
         icon: CgProfile,
@@ -56,10 +52,12 @@ export async function DashboardSidebar() {
       {
         icon: House,
         label: "Home",
+        href:"/dashboard/admin"
       },
       {
         icon: FaRegUserCircle,
         label: "Manage Users",
+        href:"/dashboard/admin/manageUsers"
       },
       {
         icon: RiMoneyDollarBoxLine,

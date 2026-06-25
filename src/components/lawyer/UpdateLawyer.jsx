@@ -124,8 +124,8 @@ export function UpdateLawyer({ service, onSuccess }) {
                 {/* LEFT */}
                 <Surface className="p-6">
                   <TextField name="name">
-                    <Label>Service Name</Label>
-                    <Input name="name" defaultValue={service.name} required />
+                    <Label>Lawyer Name</Label>
+                    <Input  name="name" required />
                   </TextField>
 
                   <div className="mt-4">
@@ -145,7 +145,7 @@ export function UpdateLawyer({ service, onSuccess }) {
                       <Input
                         name="fee"
                         type="number"
-                        defaultValue={service.fee}
+                        // defaultValue={service.fee}
                         required
                       />
                     </TextField>

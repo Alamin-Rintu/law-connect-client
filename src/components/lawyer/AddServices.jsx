@@ -23,8 +23,8 @@ export default function AddServices() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const { data: session } = authClient.useSession();
-  const user = session?.user
-  console.log(user?.email)
+  const user = session?.user;
+  // console.log(user?.email);
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -54,7 +54,7 @@ export default function AddServices() {
         fee: formData.get("fee"),
         specialization: formData.get("specialization"),
         image: uploaded.url,
-        email:user?.email
+        email: user?.email,
       };
 
       console.log("SERVICE:", product);
@@ -112,7 +112,7 @@ export default function AddServices() {
                 {/* LEFT */}
                 <Surface className="p-6">
                   <TextField name="name">
-                    <Label>Service Name</Label>
+                    <Label>Lawyer Name</Label>
                     <Input name="name" required />
                   </TextField>
 
