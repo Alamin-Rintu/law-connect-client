@@ -5,8 +5,6 @@ import { usePathname } from "next/navigation";
 import { FaFacebook, FaLinkedinIn } from "react-icons/fa";
 import { BsInstagram, BsTwitterX } from "react-icons/bs";
 import Image from "next/image";
-import logoImg from "../../public/lawyer.logo.jpg";
-
 
 export default function Footer() {
   const pathname = usePathname();
@@ -27,25 +25,22 @@ export default function Footer() {
         <div className="grid gap-10 py-16 sm:grid-cols-2 md:grid-cols-4">
           {/* Brand/About Section */}
           <div className="md:col-span-1">
-            <Link href="/" className="inline-flex items-center gap-2">
-              <div className="flex items-center gap-3 cursor-pointer">
-                <Image
-                  height={80}
-                  width={80}
-                  loading="eager"
-                  src={logoImg}
-                  alt="LawConnect logo"
-                />
-              </div>
-              <span className="text-xl font-bold tracking-tight text-white font-serif">
-                LawConnect
-              </span>
-            </Link>
+            <div className="md:col-span-1">
+              <Link href="/" className="group inline-flex flex-col">
+                <h1 className="text-2xl font-extrabold tracking-tight text-white transition-colors duration-300 group-hover:text-[#f2a104]">
+                  LawConnect
+                </h1>
 
-            <p className="mt-4 text-sm text-slate-400 leading-relaxed">
-              The modern marketplace for hiring vetted attorneys. Transparent
-              fees, secure payments, and workflows built for efficiency.
-            </p>
+                <span className="mt-1 text-[11px] uppercase tracking-[0.3em] text-slate-400">
+                  Trusted Legal Platform
+                </span>
+              </Link>
+
+              <p className="mt-4 text-sm leading-relaxed text-slate-400">
+                The modern marketplace for hiring vetted attorneys. Transparent
+                fees, secure payments, and workflows built for efficiency.
+              </p>
+            </div>
 
             {/* Social Media Icons */}
             <div className="mt-5 flex items-center gap-3">
