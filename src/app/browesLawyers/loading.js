@@ -1,13 +1,11 @@
-import React from 'react';
-import { BounceLoader } from 'react-spinners';
+import LawyerCardSkeleton from "@/components/LawyerCardSkeleton";
 
-
-const LoadingData = () => {
-    return (
-        <div className='flex justify-center items-center min-h-screen mx-auto'>
-           <BounceLoader/> 
-        </div>
-    );
-};
-
-export default LoadingData;
+export default function Loading() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 container mx-auto">
+      {Array.from({ length: 6 }).map((_, index) => (
+        <LawyerCardSkeleton key={index} />
+      ))}
+    </div>
+  );
+}
