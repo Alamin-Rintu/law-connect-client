@@ -40,10 +40,19 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Browse Lawyers", href: "/browesLawyers" },
-  ];
+  const navLinks = user
+    ? [
+        { name: "Home", href: "/" },
+        { name: "Browse Lawyers", href: "/browesLawyers" },
+        {
+          name: "Dashboard",
+          href: `/dashboard/${user.role}`,
+        },
+      ]
+    : [
+        { name: "Home", href: "/" },
+        { name: "Browse Lawyers", href: "/browesLawyers" },
+      ];
 
   return (
     <>
@@ -578,6 +587,7 @@ const Navbar = () => {
                           <MdDashboard size={16} />
                           Dashboard
                         </Link>
+
                         <div className="dropdown-divider" />
                         <button
                           className="dropdown-item danger"
@@ -617,15 +627,6 @@ const Navbar = () => {
             className="logo-wrap"
             onClick={() => setIsMenuOpen(false)}
           >
-            <div className="logo-img-wrap">
-              <Image
-                src="/lawConnect.png"
-                alt="LawConnect"
-                width={24}
-                height={24}
-                style={{ objectFit: "contain" }}
-              />
-            </div>
             <div className="logo-text">
               <span className="logo-name">LawConnect</span>
               <span className="logo-tagline">Legal Platform</span>
