@@ -559,7 +559,13 @@ const Navbar = () => {
                     aria-label="Open user menu"
                   >
                     {user?.image ? (
-                      <img src={user.image} alt={user?.name || "User"} />
+                      <Image
+                        src={user.image}
+                        alt={user?.name || "User"}
+                        width={38}
+                        height={38}
+                        className="rounded-full object-cover"
+                      />
                     ) : (
                       <div className="avatar-fallback">
                         {(user?.name || "U").slice(0, 2).toUpperCase()}
@@ -682,12 +688,12 @@ const Navbar = () => {
             <>
               <div className="drawer-user-card">
                 {user?.image ? (
-                  <img
+                  <Image
                     src={user?.image}
-                    alt={user?.name}
+                    alt={user?.name || "User"}
+                    width={38}
+                    height={38}
                     style={{
-                      width: 38,
-                      height: 38,
                       borderRadius: "50%",
                       objectFit: "cover",
                       flexShrink: 0,

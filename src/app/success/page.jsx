@@ -86,7 +86,7 @@ export default async function Success({ searchParams }) {
 
           <div className="space-y-3">
             <a
-              href="/dashboard/user"
+              href="/dashboard/client"
               className="block w-full bg-black text-white py-3 rounded-xl font-medium hover:opacity-90 transition"
             >
               Go to Dashboard
